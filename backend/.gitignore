@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.log
+
+# 環境設定
+.env
+.DS_Store
+
+# VSCode
+.vscode/
+
+# macOS
+*.DS_Store
+
+# Virtual environments
+.venv/
+env/
+venv/
+.idea/
+
+# Byte-compiled files
+*.pyo
+*.pyd
+*.pyc
+
+# DB
+*.sqlite3
+
+# Certificate (明示的に外に出さないなら)
+*.crt
