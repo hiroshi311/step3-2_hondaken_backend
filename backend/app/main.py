@@ -6,6 +6,7 @@ from app.models import user, dog, reservation, location, qrcode  # 全モデル�
 
 # 🔽 この1行を追加（ルーター読み込み！）
 from app.api import reservation as reservation_api
+from app.api import location as location_api
 
 app = FastAPI()
 
@@ -20,3 +21,5 @@ def root():
 
 # ✅ 予約APIルーターを登録
 app.include_router(reservation_api.router)
+
+app.include_router(location_api.router)
