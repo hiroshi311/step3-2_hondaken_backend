@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, String ,Float
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy.orm import relationship
+from app.core.database import Base
 
 class Location(Base):
     __tablename__ = "locations"
@@ -15,3 +14,7 @@ class Location(Base):
     phone_number = Column(String(15), nullable=True)
     latitude = Column(Float, nullable=True)    # MySQLのdouble対応
     longitude = Column(Float, nullable=True)   # MySQLのdouble対応
+
+    # Reservationとのリレーションを定義
+    reservations = relationship("Reservation", back_populates="location", lazy="joined")
+

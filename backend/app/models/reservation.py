@@ -1,17 +1,15 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from datetime import datetime
-import pytz
-
+from sqlalchemy import Column, Integer, ForeignKey, DateTime, String
 from app.core.database import Base
+from zoneinfo import ZoneInfo
+from datetime import datetime
 
-JST = pytz.timezone("Asia/Tokyo")
-
+# get_jst_now 関数を定義
 def get_jst_now():
-    return datetime.now(JST)
+    return datetime.now(ZoneInfo("Asia/Tokyo"))
 
 class Reservation(Base):
-    __tablename__ = "reservations"  # ← 複数形に修正！
+    __tablename__ = "reservations"  # 複数形に修正！
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
@@ -24,7 +22,7 @@ class Reservation(Base):
 
     created_at = Column(DateTime, default=get_jst_now)
 
-    # 逆参照が必要なら User / Location / Dog 側でも back_populates を定義
+    # 文字列でクラス名を指定して循環インポートを回避
     user = relationship("User", back_populates="reservations", lazy="joined")
+    dog = relationship("Dog", back_populates="reservations", lazy="joined")  # 文字列指定
     location = relationship("Location", back_populates="reservations", lazy="joined")
-    dog = relationship("Dog", back_populates="reservations", lazy="joined")
