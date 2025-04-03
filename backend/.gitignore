@@ -30,3 +30,4 @@ venv/
 
 # Certificate (明示的に外に出さないなら)
 *.crt
+DigiCertGlobalRootCA.crt.pem
