@@ -18,7 +18,7 @@ class Reservation(Base):
 
     check_in_time = Column(DateTime, nullable=False)
     check_out_time = Column(DateTime, nullable=False)
-    status = Column(String(25), default="予約済み")
+    status = Column(String(25), default="reserved")
 
     created_at = Column(DateTime, default=get_jst_now)
 
@@ -26,3 +26,4 @@ class Reservation(Base):
     user = relationship("User", back_populates="reservations", lazy="joined")
     dog = relationship("Dog", back_populates="reservations", lazy="joined")  # 文字列指定
     location = relationship("Location", back_populates="reservations", lazy="joined")
+    qr_code = relationship("QRCode", back_populates="reservation", lazy="joined")
