@@ -43,10 +43,10 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
-from app.core.auth import get_current_user  # ← 忘れずにインポート！
-from app.models.user import User as UserModel  # ← DBモデルのUser
+#from app.core.auth import get_current_user  # ← 忘れずにインポート！
+#from app.models.user import User as UserModel  # ← DBモデルのUser
 
 # 認証ユーザー専用のマイページ（GET /users/mypage）
-@router.get("/mypage", response_model=User)
-def read_my_page(current_user: UserModel = Depends(get_current_user)):
-    return current_user
+#@router.get("/mypage", response_model=User)
+#def read_my_page(current_user: UserModel = Depends(get_current_user)):
+#    return current_user
