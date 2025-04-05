@@ -42,4 +42,4 @@ app.include_router(user_api.router)
 app.include_router(qr_api.router)
 
 # clerk用を追加
-app.include_router(auth.router)
+#app.include_router(auth.router)
