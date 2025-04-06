@@ -4,7 +4,6 @@ from typing import Optional
 
 
 class DogBase(BaseModel):
-    user_id: int
     name: str
     type: Optional[str] = None
     breed: Optional[str] = None
@@ -20,8 +19,10 @@ class DogCreate(DogBase):
 class DogUpdate(DogBase):
     pass
 
+# レスポンス時：user_id を含めてもOK
 class Dog(DogBase):
     id: int
+    user_id: int
 
     class Config:
         from_attributes = True

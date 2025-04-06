@@ -14,16 +14,17 @@ def get_dog(db: Session, dog_id: int):
     return db.query(Dog).filter(Dog.id == dog_id).first()
 
 
-def create_dog(db: Session, dog: DogCreate):
-    user = db.query(User).filter(User.id == dog.user_id).first()
-    if user is None:
-        raise HTTPException(status_code=400, detail="Invalid user_id: user not found.")
+def create_dog(db: Session, dog: DogCreate, owner: User):
+    try:
+        db_dog = Dog(**dog.dict(), user_id=owner.id)
+        db.add(db_dog)
+        db.commit()
+        db.refresh(db_dog)
+        return db_dog
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to create dog")
 
-    db_dog = Dog(**dog.dict())
-    db.add(db_dog)
-    db.commit()
-    db.refresh(db_dog)
-    return db_dog
 
 
 def update_dog(db: Session, dog_id: int, dog: DogUpdate):

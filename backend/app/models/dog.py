@@ -21,5 +21,6 @@ class Dog(Base):
     is_vaccinated = Column(Boolean, nullable=False, default=False)
     is_neutered = Column(Boolean, nullable=False, default=False)
 
+
     user = relationship("User", back_populates="dogs", lazy="joined")
     reservations = relationship("Reservation", back_populates="dog", lazy="joined")  # Reservationとのリレーション追加

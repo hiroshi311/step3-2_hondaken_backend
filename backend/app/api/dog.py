@@ -7,6 +7,9 @@ from typing import List
 from app.schemas.dog import Dog, DogCreate, DogUpdate
 from app.core.database import get_db
 from app.crud import dog as crud_dog
+from app.models.user import User
+from app.api.auth import get_current_user
+
 
 router = APIRouter(prefix="/dogs", tags=["dogs"])
 
@@ -21,9 +24,13 @@ def get_dog(dog_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Dog not found")
     return db_dog
 
-@router.post("/", response_model=Dog)
-def create_dog(dog: DogCreate, db: Session = Depends(get_db)):
-    return crud_dog.create_dog(db, dog)
+@router.post("/me", response_model=Dog)
+def create_dog_for_current_user(
+    dog: DogCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return crud_dog.create_dog(db=db, dog=dog, owner=current_user)
 
 @router.put("/{dog_id}", response_model=Dog)
 def update_dog(dog_id: int, dog: DogUpdate, db: Session = Depends(get_db)):
