@@ -13,13 +13,29 @@ from app.api import user as user_api
 from app.api import qrcode as qr_api
 
 from app.core import auth
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
 
+# 🔽 .env読み込み（必ずここ！）
+load_dotenv()
 app = FastAPI()
+
+# 本番環境だけHTTPSリダイレクトを有効にする
+if os.getenv("ENV") == "production":
+    app.add_middleware(HTTPSRedirectMiddleware)
+
+# CORS設定
+origins = [
+    "https://app-002-step3-2-node-oshima8.azurewebsites.net",
+    "http://localhost",
+    "http://localhost:3000",
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # ← フロントのURL
+    allow_origins=origins,  # ← フロントのURL
     allow_credentials=True,
     allow_methods=["*"],  # ← これがないとPOSTすら通らない！
     allow_headers=["*"],
