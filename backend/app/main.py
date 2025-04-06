@@ -12,11 +12,18 @@ from app.api import dog as dog_api
 from app.api import user as user_api
 from app.api import qrcode as qr_api
 
-from app.core import auth
+from app.api import auth
 #from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware #えんちゃんのリクエストに応じてコメントアウト外す
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 #import os
+
+# CORS設定
+origins = [
+    "https://app-002-step3-2-node-oshima8.azurewebsites.net",
+    "http://localhost",
+    "http://localhost:3000",
+]
 
 # 🔽 .env読み込み（必ずここ！）
 load_dotenv()
@@ -25,13 +32,6 @@ app = FastAPI()
 # 本番環境だけHTTPSリダイレクトを有効にする　#えんちゃんのリクエストに応じてコメントアウト外す
 #if os.getenv("ENV") == "production":
 #    app.add_middleware(HTTPSRedirectMiddleware)
-
-# CORS設定
-origins = [
-    "https://app-002-step3-2-node-oshima8.azurewebsites.net",
-    "http://localhost",
-    "http://localhost:3000",
-]
 
 app.add_middleware(
     CORSMiddleware,
@@ -58,4 +58,4 @@ app.include_router(user_api.router)
 app.include_router(qr_api.router)
 
 # clerk用を追加
-#app.include_router(auth.router)
+app.include_router(auth.router)
