@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+from zoneinfo import ZoneInfo
+from datetime import datetime
+from fastapi import Query
 
 from app.schemas.reservation import Reservation, ReservationCreate
 from app.crud import reservation as crud
@@ -17,11 +20,25 @@ def get_db():
     finally:
         db.close()
 
+def get_jst_now():
+    return datetime.now(ZoneInfo("Asia/Tokyo"))
+
 
 # 予約一覧を取得
 @router.get("/", response_model=List[Reservation])
 def read_reservations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return crud.get_reservations(db, skip=skip, limit=limit)
+
+
+#　未来予約一覧を取得
+@router.get("/upcoming", response_model=List[Reservation])
+def get_upcoming_reservations(
+    user_id: int = Query(...), 
+    db: Session = Depends(get_db)
+):
+    now = get_jst_now()
+    print(f"user_id: {user_id}, now: {now}")
+    return crud.get_upcoming_reservations(db, user_id=user_id, from_time=now)
 
 
 # 単一予約を取得
