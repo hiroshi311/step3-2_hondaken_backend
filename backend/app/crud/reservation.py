@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException  # ←追加！
 from app.models.reservation import Reservation
 from app.schemas.reservation import ReservationCreate
+from datetime import datetime
 
 # 外部モデルをインポート
 from app.models.user import User
@@ -41,3 +42,10 @@ def get_reservations(db: Session, skip: int = 0, limit: int = 100):
 def get_reservation_by_id(db: Session, reservation_id: int):
     return db.query(Reservation).filter(Reservation.id == reservation_id).first()
 
+
+#未来予約一覧を取得
+def get_upcoming_reservations(db: Session, user_id: int, from_time: datetime):
+    return db.query(Reservation).filter(
+        Reservation.user_id == user_id,
+        Reservation.check_in_time >= from_time
+    ).all()
