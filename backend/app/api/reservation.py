@@ -8,6 +8,8 @@ from fastapi import Query
 from app.schemas.reservation import Reservation, ReservationCreate
 from app.crud import reservation as crud
 from app.core.database import SessionLocal
+from app.api.auth import get_current_user  # 🔑 JWTから現在のユーザーを取得
+from app.models.user import User  # 🔑 User型アノテーションのため
 
 router = APIRouter(prefix="/reservations", tags=["reservations"])
 
@@ -30,15 +32,14 @@ def read_reservations(skip: int = 0, limit: int = 100, db: Session = Depends(get
     return crud.get_reservations(db, skip=skip, limit=limit)
 
 
-#　未来予約一覧を取得
+# 🔁 ログインユーザーの未来予約一覧を取得
 @router.get("/upcoming", response_model=List[Reservation])
 def get_upcoming_reservations(
-    user_id: int = Query(...), 
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     now = get_jst_now()
-    print(f"user_id: {user_id}, now: {now}")
-    return crud.get_upcoming_reservations(db, user_id=user_id, from_time=now)
+    return crud.get_upcoming_reservations(db, user_id=current_user.id, from_time=now)
 
 
 # 単一予約を取得
@@ -54,3 +55,12 @@ def read_reservation(reservation_id: int, db: Session = Depends(get_db)):
 @router.post("/", response_model=Reservation)
 def create_reservation(reservation: ReservationCreate, db: Session = Depends(get_db)):
     return crud.create_reservation(db, reservation)
+
+# 🔁 ログインユーザーの予約作成
+@router.post("/me", response_model=Reservation)
+def create_reservation_with_user(
+    reservation: ReservationCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)  # ← JWTログイン済みのユーザー情報
+):
+    return crud.create_reservation_with_user(db, reservation, current_user)
