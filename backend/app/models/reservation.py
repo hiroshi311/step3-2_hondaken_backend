@@ -21,6 +21,8 @@ class Reservation(Base):
     status = Column(String(25), default="reserved")
 
     created_at = Column(DateTime, default=get_jst_now)
+    scheduled_start_time = Column(DateTime, nullable=False)
+    scheduled_end_time = Column(DateTime, nullable=False)
 
     # 文字列でクラス名を指定して循環インポートを回避
     user = relationship("User", back_populates="reservations", lazy="joined")

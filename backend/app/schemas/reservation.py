@@ -9,6 +9,8 @@ class ReservationBase(BaseModel):
     dog_id: int
     check_in_time: datetime
     check_out_time: datetime
+    scheduled_start_time: datetime
+    scheduled_end_time: datetime
     status: str = Field(default="予約済み")
 
 
