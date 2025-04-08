@@ -64,3 +64,16 @@ def create_reservation_with_user(
     current_user: User = Depends(get_current_user)  # ← JWTログイン済みのユーザー情報
 ):
     return crud.create_reservation_with_user(db, reservation, current_user)
+
+# 🔐 ログインユーザーの未来予約一覧
+@router.get("/me/upcoming", response_model=List[Reservation])
+def get_my_upcoming_reservations(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    now = get_jst_now()
+    return crud.get_upcoming_reservations(
+        db=db,
+        user_id=current_user.id,
+        from_time=now
+    )
