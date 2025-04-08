@@ -9,8 +9,8 @@ class LocationBase(BaseModel):
     city: str
     address_line: str
     phone_number: str
-    latitude: float
-    longitude: float
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class LocationCreate(LocationBase):
