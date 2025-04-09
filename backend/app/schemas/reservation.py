@@ -23,3 +23,15 @@ class Reservation(BaseModel):
 
     class Config:
         orm_mode = True  # SQLAlchemyモデルと連携できるようにする
+
+# 予約詳細取得用レスポンススキーマ
+class ReservationDetail(BaseModel):
+    user_last_name: str
+    user_first_name: str
+    location_name: str
+    dog_name: str
+    dog_breed: str
+    dog_weight: float
+
+    class Config:
+        orm_mode = True
