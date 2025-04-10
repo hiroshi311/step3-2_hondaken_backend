@@ -30,3 +30,18 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class UserUpdate(BaseModel):
+    name_last: Optional[str] = None
+    name_first: Optional[str] = None
+    email: Optional[EmailStr] = None
+    birthday: Optional[datetime] = None
+    postal_code: Optional[str] = None
+    prefecture: Optional[str] = None
+    city: Optional[str] = None
+    address_line: Optional[str] = None
+    phone_number: Optional[str] = None
+    gender: Optional[str] = None
+    google_id: Optional[str] = None
+    profile_image_url: Optional[str] = None
+    line_u_id: Optional[str] = None
