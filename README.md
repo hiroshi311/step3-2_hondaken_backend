@@ -28,6 +28,10 @@ DB_HOST=your_host.mysql.database.azure.com
 DB_PORT=3306
 DB_NAME=step3_2_hondaken
 
+AZURE_STORAGE_ACCOUNT_NAME=blobstep32
+AZURE_BLOB_CONTAINER_NAME=team8-hondadog-locations
+AZURE_BLOB_PATH=location_images/
+
 4. 起動
 bash
 コピーする
