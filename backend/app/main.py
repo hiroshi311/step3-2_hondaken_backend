@@ -18,6 +18,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 #import os
 
+# LINE
+from app.line.router import router as line_router
+
 # CORS設定
 origins = [
     "https://app-002-step3-2-node-oshima8.azurewebsites.net",
@@ -60,3 +63,6 @@ app.include_router(qr_api.router)
 
 # clerk用を追加
 app.include_router(auth.router)
+
+# Line用を追加
+app.include_router(line_router)
