@@ -23,6 +23,7 @@ origins = [
     "https://app-002-step3-2-node-oshima8.azurewebsites.net",
     "http://localhost",
     "http://localhost:3000",
+    "https://api.amazonalexa.com", # Alexaスキルからの通信を許可
 ]
 
 # 🔽 .env読み込み（必ずここ！）
