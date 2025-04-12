@@ -60,8 +60,8 @@ jobs:
         with:
           name: python-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
+      #- name: Unzip artifact for deployment
+      #  run: unzip release.zip
 
       
       - name: 'Deploy to Azure Web App'
@@ -71,3 +71,4 @@ jobs:
           app-name: 'app-002-step3-2-py-oshima8'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CBBA4022257844589F73B3C1A2E92C5C }}
+          package: release.zip  # ← ここを追加！
